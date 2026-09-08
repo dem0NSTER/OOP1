@@ -1,7 +1,15 @@
 package org.example;
 
+/**
+ * Provides methods for sorting arrays.
+ */
 public class Sorter {
 
+    /**
+     * Sorts the specified array using heap sort.
+     *
+     * @param array array to sort
+     */
     public static void heapSort(int[] array) {
         Heap heap = new Heap(array);
 

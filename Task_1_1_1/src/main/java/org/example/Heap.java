@@ -22,7 +22,7 @@ public class Heap {
             return -1;
         }
 
-        int max = data[0];
+        final int max = data[0];
 
         data[0] = data[size - 1];
         size--;
