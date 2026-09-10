@@ -19,7 +19,7 @@ public class Heap {
 
     public int extractMax() {
         if (size <= 0) {
-            return -1;
+            throw new IllegalStateException("куча пуста");
         }
 
         final int max = data[0];
