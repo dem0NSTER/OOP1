@@ -20,7 +20,7 @@ public class Deck {
         if  (cards.isEmpty()) {
             throw new IllegalStateException("колода пуста");
         }
-        
+
         return cards.removeLast();
     }
 
@@ -32,6 +32,7 @@ public class Deck {
                 cards.add(new Card(rank, suit));
             }
         }
-
+        
     }
+
 }
