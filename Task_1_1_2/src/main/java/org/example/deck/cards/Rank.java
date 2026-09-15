@@ -1,4 +1,4 @@
-package org.example.cards;
+package org.example.deck.cards;
 
 public enum Rank {
     TWO,

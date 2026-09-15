@@ -1,4 +1,4 @@
-package org.example.cards;
+package org.example.deck.cards;
 
 public class Card {
 
@@ -18,5 +18,5 @@ public class Card {
     public Suit getSuit() {
         return suit;
     }
-    
+
 }
