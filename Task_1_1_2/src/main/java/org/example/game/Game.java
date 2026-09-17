@@ -1,7 +1,7 @@
 package org.example.game;
 
 import org.example.deck.Deck;
-import org.example.players.Participant;
+import org.example.players.helpers.Participant;
 
 public class Game {
     private final Deck deck;

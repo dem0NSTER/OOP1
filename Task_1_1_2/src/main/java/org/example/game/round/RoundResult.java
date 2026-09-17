@@ -1,4 +1,4 @@
-package org.example.game;
+package org.example.game.round;
 
 public enum RoundResult {
     DRAW,

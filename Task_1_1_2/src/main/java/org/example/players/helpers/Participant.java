@@ -1,4 +1,4 @@
-package org.example.players;
+package org.example.players.helpers;
 
 import org.example.deck.cards.Card;
 

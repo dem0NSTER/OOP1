@@ -1,9 +1,10 @@
-package org.example.game;
+package org.example.game.round;
 
 import java.util.Scanner;
 
 import org.example.deck.Deck;
-import org.example.players.Participant;
+import org.example.players.Dealer;
+import org.example.players.Player;
 
 public class Round {
 
@@ -11,15 +12,15 @@ public class Round {
 
     private final Deck deck;
 
-    private final Participant player;
+    private final Player player;
 
-    private final Participant dealer;
+    private final Dealer dealer;
 
     public Round(Scanner scanner) {
         this.scanner = scanner;
         this.deck = new Deck();
-        this.player = new Participant();
-        this.dealer = new Participant();
+        this.player = new Player();
+        this.dealer = new Dealer();
 
         deck.shuffle();
     }
@@ -78,7 +79,7 @@ public class Round {
     }
 
     private void playDealerTurn() {
-        while (dealer.getScore() < 17) {
+        while (dealer.shouldTakeCard()) {
             dealer.takeCard(deck.draw());
         }
     }
