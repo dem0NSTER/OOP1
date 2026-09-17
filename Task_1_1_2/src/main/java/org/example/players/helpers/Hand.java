@@ -47,4 +47,13 @@ public class Hand {
         return cards.size() == 2 && getScore() == 21;
     }
 
+    public Card getCard(int index) {
+        return cards.get(index);
+    }
+
+    @Override
+    public String toString() {
+        return cards.toString();
+    }
+
 }

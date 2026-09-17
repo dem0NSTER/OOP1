@@ -3,7 +3,7 @@ package org.example.players.helpers;
 import org.example.deck.cards.Card;
 
 public class Participant {
-    private final Hand hand;
+    protected final Hand hand;
 
     public Participant() {
         this.hand = new Hand();
@@ -23,5 +23,14 @@ public class Participant {
 
     public boolean hasBlackjack() {
         return hand.hasBlackjack();
+    }
+
+    public Card getCard(int index) {
+        return hand.getCard(index);
+    }
+
+    @Override
+    public String toString() {
+        return hand.toString();
     }
 }
