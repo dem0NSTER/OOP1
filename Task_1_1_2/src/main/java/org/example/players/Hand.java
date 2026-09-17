@@ -23,8 +23,8 @@ public class Hand {
         int aces = 0;
 
         for (Card card : cards) {
-            score += card.getRank().getValue();
-            if (card.getRank() == Rank.ACE) {
+            score += card.rank().getValue();
+            if (card.rank() == Rank.ACE) {
                 aces++;
             }
         }
