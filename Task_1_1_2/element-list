@@ -1,0 +1,7 @@
+org.example
+org.example.deck
+org.example.deck.cards
+org.example.game
+org.example.game.round
+org.example.players
+org.example.players.helpers
