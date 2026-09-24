@@ -1,10 +1,10 @@
 package org.example.game;
 
 import java.util.Scanner;
-
 import org.example.game.round.Round;
 import org.example.game.round.RoundResult;
 
+/** Управляет раундами в блэкджек и ведёт общий счёт. */
 public class Game {
 
     private final Scanner scanner;
@@ -17,6 +17,7 @@ public class Game {
         this.scanner = scanner;
     }
 
+    /** Запускает игру и проводит раунды, пока игрок не решит остановиться. */
     public void start() {
         while (true) {
             System.out.println("**********************************");
@@ -40,6 +41,7 @@ public class Game {
             case DEALER_WIN -> dealerWins++;
             case DRAW -> {
             }
+            default -> throw new IllegalStateException("Unexpected result: " + roundResult);
         }
     }
 
@@ -48,6 +50,7 @@ public class Game {
             case PLAYER_WIN -> System.out.println("Вы победили!");
             case DEALER_WIN -> System.out.println("Дилер победил!");
             case DRAW -> System.out.println("Ничья!");
+            default -> throw new IllegalStateException("Unexpected result: " + roundResult);
         }
     }
 

@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Scanner;
-
 import org.example.deck.Deck;
 import org.example.deck.cards.Card;
 import org.example.deck.cards.Rank;
@@ -13,7 +12,10 @@ import org.example.deck.cards.Suit;
 import org.junit.jupiter.api.Test;
 
 class RoundTest {
-    private static Round round(String choices, Card... drawOrder) throws ReflectiveOperationException {
+    private static Round round(
+            String choices,
+            Card... drawOrder
+    ) throws ReflectiveOperationException {
         Round round = new Round(new Scanner(choices));
 
         Field deckField = Round.class.getDeclaredField("deck");

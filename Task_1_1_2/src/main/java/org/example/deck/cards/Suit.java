@@ -1,5 +1,6 @@
 package org.example.deck.cards;
 
+/** Масти игральных карт и их обозначения. */
 public enum Suit {
     HEARTS("♥"),
     DIAMONDS("♦"),

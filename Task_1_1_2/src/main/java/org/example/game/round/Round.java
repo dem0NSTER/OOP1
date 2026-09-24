@@ -1,12 +1,12 @@
 package org.example.game.round;
 
 import java.util.Scanner;
-
 import org.example.deck.Deck;
 import org.example.deck.cards.Card;
 import org.example.players.Dealer;
 import org.example.players.Player;
 
+/** Один раунд игры в блэкджек. */
 public class Round {
 
     private final Scanner scanner;
@@ -17,6 +17,11 @@ public class Round {
 
     private final Dealer dealer;
 
+    /**
+     * Создаёт раунд, считывающий действия игрока из переданного сканера.
+     *
+     * @param scanner сканер для ввода действий игрока
+     */
     public Round(Scanner scanner) {
         this.scanner = scanner;
         this.deck = new Deck();
@@ -26,6 +31,7 @@ public class Round {
         deck.shuffle();
     }
 
+    /** Раздаёт по две карты игроку и дилеру. */
     public void dealInitialCards() {
         player.takeCard(deck.draw());
         dealer.takeCard(deck.draw());
@@ -34,6 +40,11 @@ public class Round {
         dealer.takeCard(deck.draw());
     }
 
+    /**
+     * Проводит раунд до получения результата.
+     *
+     * @return результат раунда
+     */
     public RoundResult playRound() {
         dealInitialCards();
         printInitialState();

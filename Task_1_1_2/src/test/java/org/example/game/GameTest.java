@@ -8,12 +8,15 @@ import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
-
 import org.example.game.round.RoundResult;
 import org.junit.jupiter.api.Test;
 
 class GameTest {
-    private static void invokePrivate(Game game, String methodName, RoundResult result) throws Exception {
+    private static void invokePrivate(
+            Game game,
+            String methodName,
+            RoundResult result
+    ) throws Exception {
         Method method = Game.class.getDeclaredMethod(methodName, RoundResult.class);
         method.setAccessible(true);
         method.invoke(game, result);

@@ -1,10 +1,11 @@
 package org.example.deck;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import org.example.deck.cards.Card;
 import org.example.deck.cards.Rank;
 import org.example.deck.cards.Suit;

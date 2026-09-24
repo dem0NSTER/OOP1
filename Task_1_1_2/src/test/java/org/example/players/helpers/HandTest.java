@@ -21,10 +21,11 @@ class HandTest {
         int expectedScore = 21;
         int actualScore = hand.getScore();
 
+        assertEquals(expectedScore, actualScore);
+
         boolean expectedBust = false;
         boolean actualBust = hand.isBust();
 
-        assertEquals(expectedScore, actualScore);
         assertEquals(expectedBust, actualBust);
 
         hand.addCard(new Card(Rank.TWO, Suit.HEARTS));
@@ -45,14 +46,16 @@ class HandTest {
         boolean expectedBlackjack = true;
         boolean actualBlackjack = hand.hasBlackjack();
 
+        assertEquals(expectedBlackjack, actualBlackjack);
+
         Card expectedCard = new Card(Rank.ACE, Suit.HEARTS);
         Card actualCard = hand.getCard(0);
+
+        assertEquals(expectedCard, actualCard);
 
         String expectedHand = "[♥A♥, ♥K♥]";
         String actualHand = hand.toString();
 
-        assertEquals(expectedBlackjack, actualBlackjack);
-        assertEquals(expectedCard, actualCard);
         assertEquals(expectedHand, actualHand);
 
         hand.addCard(new Card(Rank.TWO, Suit.HEARTS));
@@ -60,10 +63,11 @@ class HandTest {
         expectedBlackjack = false;
         actualBlackjack = hand.hasBlackjack();
 
+        assertEquals(expectedBlackjack, actualBlackjack);
+
         boolean expectedBust = false;
         boolean actualBust = hand.isBust();
 
-        assertEquals(expectedBlackjack, actualBlackjack);
         assertEquals(expectedBust, actualBust);
 
         Hand threeCardsWithTwentyOne = new Hand();
@@ -73,9 +77,11 @@ class HandTest {
 
         int expectedScore = 21;
         int actualScore = threeCardsWithTwentyOne.getScore();
-        actualBlackjack = threeCardsWithTwentyOne.hasBlackjack();
 
         assertEquals(expectedScore, actualScore);
+
+        actualBlackjack = threeCardsWithTwentyOne.hasBlackjack();
+
         assertEquals(expectedBlackjack, actualBlackjack);
 
         threeCardsWithTwentyOne.addCard(new Card(Rank.TWO, Suit.HEARTS));
@@ -96,22 +102,26 @@ class HandTest {
         int expectedScore = 16;
         int actualScore = player.getScore();
 
+        assertEquals(expectedScore, actualScore);
+
         boolean expectedBust = false;
         boolean actualBust = player.isBust();
+
+        assertEquals(expectedBust, actualBust);
 
         boolean expectedBlackjack = false;
         boolean actualBlackjack = player.hasBlackjack();
 
+        assertEquals(expectedBlackjack, actualBlackjack);
+
         Card expectedCard = new Card(Rank.TEN, Suit.HEARTS);
         Card actualCard = player.getCard(0);
+
+        assertEquals(expectedCard, actualCard);
 
         String expectedHand = "[♥10♥, ♥6♥]";
         String actualHand = player.toString();
 
-        assertEquals(expectedScore, actualScore);
-        assertEquals(expectedBust, actualBust);
-        assertEquals(expectedBlackjack, actualBlackjack);
-        assertEquals(expectedCard, actualCard);
         assertEquals(expectedHand, actualHand);
 
         Dealer dealer = new Dealer();
@@ -122,10 +132,11 @@ class HandTest {
         boolean expectedShouldTakeCard = true;
         boolean actualShouldTakeCard = dealer.shouldTakeCard();
 
+        assertEquals(expectedShouldTakeCard, actualShouldTakeCard);
+
         String expectedHiddenHand = "[♥10♥, ???]";
         String actualHiddenHand = dealer.getHiddenHandView();
 
-        assertEquals(expectedShouldTakeCard, actualShouldTakeCard);
         assertEquals(expectedHiddenHand, actualHiddenHand);
 
         dealer.takeCard(new Card(Rank.ACE, Suit.HEARTS));
@@ -133,14 +144,16 @@ class HandTest {
         expectedScore = 17;
         actualScore = dealer.getScore();
 
+        assertEquals(expectedScore, actualScore);
+
         expectedShouldTakeCard = false;
         actualShouldTakeCard = dealer.shouldTakeCard();
+
+        assertEquals(expectedShouldTakeCard, actualShouldTakeCard);
 
         expectedHand = "[♥10♥, ♥6♥, ♥A♥]";
         actualHand = dealer.toString();
 
-        assertEquals(expectedScore, actualScore);
-        assertEquals(expectedShouldTakeCard, actualShouldTakeCard);
         assertEquals(expectedHand, actualHand);
     }
 }

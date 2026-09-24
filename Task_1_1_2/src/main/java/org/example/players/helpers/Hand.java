@@ -2,10 +2,10 @@ package org.example.players.helpers;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.example.deck.cards.Card;
 import org.example.deck.cards.Rank;
 
+/** Рука в блэкджеке и правила подсчёта её очков. */
 public class Hand {
 
     private final List<Card> cards;
@@ -18,6 +18,11 @@ public class Hand {
         cards.add(card);
     }
 
+    /**
+     * Вычисляет наилучшее количество очков для карт в руке.
+     *
+     * @return количество очков в руке
+     */
     public int getScore() {
         int score = 0;
         int aces = 0;

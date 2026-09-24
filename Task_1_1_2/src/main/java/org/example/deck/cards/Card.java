@@ -1,5 +1,6 @@
 package org.example.deck.cards;
 
+/** Игральная карта, заданная достоинством и мастью. */
 public record Card(Rank rank, Suit suit) {
 
     @Override

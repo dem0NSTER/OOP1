@@ -1,5 +1,6 @@
 package org.example.deck.cards;
 
+/** Достоинства карт, их значения в блэкджеке и обозначения. */
 public enum Rank {
     TWO(2, "2"),
     THREE(3, "3"),
