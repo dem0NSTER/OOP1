@@ -1,0 +1,15 @@
+package org.example.players;
+
+import org.example.players.helpers.Participant;
+
+/** Дилер, участвующий в партии в блэкджек. */
+public class Dealer extends Participant {
+
+    public boolean shouldTakeCard() {
+        return getScore() < 17;
+    }
+
+    public String getHiddenHandView() {
+        return "[" + getCard(0) + ", ???]";
+    }
+}
