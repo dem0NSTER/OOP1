@@ -27,7 +27,7 @@ public class Deck {
             throw new IllegalStateException("колода пуста");
         }
 
-        return cards.removeLast();
+        return cards.remove(cards.size() - 1);
     }
 
     /** Создаёт полную колоду со всеми достоинствами и мастями. */
