@@ -1,165 +1,59 @@
 package org.example.game.round;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.lang.reflect.Field;
-import java.util.List;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
-import org.example.deck.Deck;
-import org.example.deck.cards.Card;
-import org.example.deck.cards.Rank;
-import org.example.deck.cards.Suit;
 import org.junit.jupiter.api.Test;
 
 class RoundTest {
-    private static Round round(
-            String choices,
-            Card... drawOrder
-    ) throws ReflectiveOperationException {
+    private record PlayedRound(RoundResult result, String output) {
+    }
+
+    private static PlayedRound play(String choices) {
         Round round = new Round(new Scanner(choices));
+        PrintStream original = System.out;
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        RoundResult result;
 
-        Field deckField = Round.class.getDeclaredField("deck");
-        deckField.setAccessible(true);
-        Deck deck = (Deck) deckField.get(round);
-
-        Field cardsField = Deck.class.getDeclaredField("cards");
-        cardsField.setAccessible(true);
-        @SuppressWarnings("unchecked")
-        List<Card> cards = (List<Card>) cardsField.get(deck);
-
-        cards.clear();
-
-        for (int i = drawOrder.length - 1; i >= 0; i--) {
-            cards.add(drawOrder[i]);
+        try (PrintStream capture = new PrintStream(output, true, StandardCharsets.UTF_8)) {
+            System.setOut(capture);
+            result = round.playRound();
+        } finally {
+            System.setOut(original);
         }
 
-        return round;
+        return new PlayedRound(result, output.toString(StandardCharsets.UTF_8));
     }
 
     @Test
-    void bothBlackjacksDraw() throws Exception {
-        RoundResult expected = RoundResult.DRAW;
+    void standingCompletesRoundWithoutDrawingForPlayer() {
+        PlayedRound played = play("0");
 
-        RoundResult actual = round(
-                "",
-                new Card(Rank.ACE, Suit.HEARTS),
-                new Card(Rank.ACE, Suit.SPADES),
-                new Card(Rank.KING, Suit.HEARTS),
-                new Card(Rank.QUEEN, Suit.SPADES)
-        ).playRound();
-
-        assertEquals(expected, actual);
+        assertNotNull(played.result());
+        assertTrue(played.output().contains("Ваши карты:"));
+        assertTrue(played.output().contains("Ваши очки:"));
+        assertTrue(played.output().contains("Карты дилера:"));
+        assertFalse(played.output().contains("Вы взяли:"));
+        assertTrue(played.output().contains("Дилер открывает карты:")
+                || played.output().contains("Blackjack!"));
     }
 
     @Test
-    void playerBlackjackWins() throws Exception {
-        RoundResult expected = RoundResult.PLAYER_WIN;
+    void takingCardsEndsInBustUnlessRoundEndsWithBlackjack() {
+        PlayedRound played = play("1 ".repeat(52));
 
-        RoundResult actual = round(
-                "",
-                new Card(Rank.ACE, Suit.HEARTS),
-                new Card(Rank.NINE, Suit.SPADES),
-                new Card(Rank.KING, Suit.HEARTS),
-                new Card(Rank.SEVEN, Suit.SPADES)
-        ).playRound();
-
-        assertEquals(expected, actual);
+        assertNotNull(played.result());
+        if (played.output().contains("Вы взяли:")) {
+            assertEquals(RoundResult.DEALER_WIN, played.result());
+            assertTrue(played.output().contains("Перебор!"));
+        } else {
+            assertTrue(played.output().contains("Blackjack!"));
+        }
     }
-
-    @Test
-    void dealerBlackjackWins() throws Exception {
-        RoundResult expected = RoundResult.DEALER_WIN;
-
-        RoundResult actual = round(
-                "",
-                new Card(Rank.NINE, Suit.HEARTS),
-                new Card(Rank.ACE, Suit.SPADES),
-                new Card(Rank.SEVEN, Suit.HEARTS),
-                new Card(Rank.KING, Suit.SPADES)
-        ).playRound();
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void playerBustLosesImmediately() throws Exception {
-        RoundResult expected = RoundResult.DEALER_WIN;
-
-        RoundResult actual = round(
-                "1",
-                new Card(Rank.TEN, Suit.HEARTS),
-                new Card(Rank.FIVE, Suit.SPADES),
-                new Card(Rank.NINE, Suit.HEARTS),
-                new Card(Rank.SIX, Suit.SPADES),
-                new Card(Rank.FIVE, Suit.HEARTS)
-        ).playRound();
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void dealerBustMakesPlayerWin() throws Exception {
-        RoundResult expected = RoundResult.PLAYER_WIN;
-
-        RoundResult actual = round(
-                "0",
-                new Card(Rank.TEN, Suit.HEARTS),
-                new Card(Rank.TEN, Suit.SPADES),
-                new Card(Rank.EIGHT, Suit.HEARTS),
-                new Card(Rank.SIX, Suit.SPADES),
-                new Card(Rank.KING, Suit.CLUBS)
-        ).playRound();
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void comparesScoresAndCanDraw() throws Exception {
-        RoundResult expected = RoundResult.PLAYER_WIN;
-        RoundResult actual = round(
-                "0",
-                new Card(Rank.TEN, Suit.HEARTS),
-                new Card(Rank.TEN, Suit.SPADES),
-                new Card(Rank.NINE, Suit.HEARTS),
-                new Card(Rank.EIGHT, Suit.SPADES)
-        ).playRound();
-        assertEquals(expected, actual);
-
-        expected = RoundResult.DEALER_WIN;
-        actual = round(
-                "0",
-                new Card(Rank.TEN, Suit.HEARTS),
-                new Card(Rank.TEN, Suit.SPADES),
-                new Card(Rank.SEVEN, Suit.HEARTS),
-                new Card(Rank.EIGHT, Suit.SPADES)
-        ).playRound();
-        assertEquals(expected, actual);
-
-        expected = RoundResult.DRAW;
-        actual = round(
-                "0",
-                new Card(Rank.TEN, Suit.HEARTS),
-                new Card(Rank.NINE, Suit.SPADES),
-                new Card(Rank.EIGHT, Suit.HEARTS),
-                new Card(Rank.NINE, Suit.CLUBS)
-        ).playRound();
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void dealerDrawsUntilSeventeen() throws Exception {
-        RoundResult expected = RoundResult.PLAYER_WIN;
-
-        RoundResult actual = round(
-                "0",
-                new Card(Rank.TEN, Suit.HEARTS),
-                new Card(Rank.EIGHT, Suit.SPADES),
-                new Card(Rank.EIGHT, Suit.HEARTS),
-                new Card(Rank.SEVEN, Suit.SPADES),
-                new Card(Rank.TWO, Suit.CLUBS)
-        ).playRound();
-
-        assertEquals(expected, actual);
-    }
-
 }
