@@ -2,9 +2,12 @@ package org.example.players.helpers;
 
 import org.example.deck.cards.Card;
 
-/** Участник игры в блэкджек, у которого есть рука с картами. */
-public class Participant {
-    protected final Hand hand;
+/**
+ *
+ * Участник игры в блэкджек, у которого есть рука с картами.
+ */
+public abstract class Participant {
+    private final Hand hand;
 
     public Participant() {
         this.hand = new Hand();
