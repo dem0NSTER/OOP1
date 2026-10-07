@@ -6,5 +6,10 @@ public abstract class Expression {
 
     public abstract int eval(String variables);
 
-    public abstract void print();
+    @Override
+    public abstract String toString();
+
+    public void print() {
+        System.out.print(toString());
+    }
 }

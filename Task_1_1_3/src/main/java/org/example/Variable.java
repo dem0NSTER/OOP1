@@ -35,7 +35,7 @@ public class Variable extends Expression {
     }
 
     @Override
-    public void print() {
-        System.out.print(name);
+    public String toString() {
+        return name;
     }
 }

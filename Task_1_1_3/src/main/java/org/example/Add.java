@@ -24,11 +24,7 @@ public class Add extends Expression {
     }
 
     @Override
-    public void print() {
-        System.out.print("(");
-        left.print();
-        System.out.print("+");
-        right.print();
-        System.out.print(")");
+    public String toString() {
+        return "(" + left + "+" + right + ")";
     }
 }

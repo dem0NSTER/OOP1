@@ -8,8 +8,8 @@ public class Number extends Expression {
     }
 
     @Override
-    public void print() {
-        System.out.print(value);
+    public String toString() {
+        return Integer.toString(value);
     }
 
     @Override
