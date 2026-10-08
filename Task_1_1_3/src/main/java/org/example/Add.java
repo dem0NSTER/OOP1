@@ -1,5 +1,8 @@
 package org.example;
 
+/**
+ * Represents the sum of two expressions.
+ */
 public class Add extends Expression {
 
     private final Expression left;

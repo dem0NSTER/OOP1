@@ -1,5 +1,8 @@
 package org.example;
 
+/**
+ * Represents the difference of two expressions.
+ */
 public class Sub extends Expression {
     private final Expression left;
     private final Expression right;

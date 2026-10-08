@@ -1,5 +1,8 @@
 package org.example;
 
+/**
+ * Represents an integer constant.
+ */
 public class Number extends Expression {
     private final int value;
 

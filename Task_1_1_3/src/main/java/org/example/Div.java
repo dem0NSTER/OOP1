@@ -1,5 +1,8 @@
 package org.example;
 
+/**
+ * Represents the quotient of two expressions.
+ */
 public class Div extends Expression {
 
     private final Expression left;
@@ -13,7 +16,10 @@ public class Div extends Expression {
     @Override
     public Expression derivative(String variable) {
         return new Div(
-                new Sub(new Mul(left.derivative(variable), right), new Mul(left, right.derivative(variable))),
+                new Sub(
+                        new Mul(left.derivative(variable), right),
+                        new Mul(left, right.derivative(variable))
+                ),
                 new Mul(right, right)
         );
     }

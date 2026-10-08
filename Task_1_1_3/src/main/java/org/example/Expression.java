@@ -1,5 +1,8 @@
 package org.example;
 
+/**
+ * Defines an arithmetic expression that can be evaluated and differentiated.
+ */
 public abstract class Expression {
 
     public abstract Expression derivative(String variable);

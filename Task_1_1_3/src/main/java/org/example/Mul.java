@@ -1,5 +1,8 @@
 package org.example;
 
+/**
+ * Represents the product of two expressions.
+ */
 public class Mul extends Expression {
     private final Expression left;
     private final Expression right;

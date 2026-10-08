@@ -1,5 +1,8 @@
 package org.example;
 
+/**
+ * Represents a named variable in an expression.
+ */
 public class Variable extends Expression {
     private final String name;
 

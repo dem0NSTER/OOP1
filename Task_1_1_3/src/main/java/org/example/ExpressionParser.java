@@ -1,7 +1,16 @@
 package org.example;
 
+/**
+ * Parses integer constants, variables, and parenthesized binary expressions.
+ */
 public class ExpressionParser {
 
+    /**
+     * Parses a string into an arithmetic expression.
+     *
+     * @param input the expression to parse
+     * @return the parsed expression
+     */
     public Expression parse(String input) {
         input = input.trim();
 
