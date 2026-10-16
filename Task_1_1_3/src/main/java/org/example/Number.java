@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Map;
+
 /**
  * Represents an integer constant.
  */
@@ -21,7 +23,7 @@ public class Number extends Expression {
     }
 
     @Override
-    public int eval(String variables) {
+    protected int eval(Map<String, Integer> variables) {
         return value;
     }
 }

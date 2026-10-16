@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Map;
+
 /**
  * Represents a named variable in an expression.
  */
@@ -20,21 +22,13 @@ public class Variable extends Expression {
     }
 
     @Override
-    public int eval(String variables) {
-        String[] assignments = variables.split(";");
-
-        for (String assignment : assignments) {
-            String[] parts = assignment.split("=");
-
-            String variableName = parts[0].trim();
-            int value = Integer.parseInt(parts[1].trim());
-
-            if (name.equals(variableName)) {
-                return value;
-            }
+    protected int eval(Map<String, Integer> variables) {
+        Integer value = variables.get(name);
+        if (value == null) {
+            throw new IllegalArgumentException("Variable not found: " + name);
         }
 
-        throw new IllegalArgumentException("Variable not found: " + name);
+        return value;
     }
 
     @Override

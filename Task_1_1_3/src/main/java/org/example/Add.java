@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Map;
+
 /**
  * Represents the sum of two expressions.
  */
@@ -22,7 +24,7 @@ public class Add extends Expression {
     }
 
     @Override
-    public int eval(String variables) {
+    protected int eval(Map<String, Integer> variables) {
         return left.eval(variables) + right.eval(variables);
     }
 
