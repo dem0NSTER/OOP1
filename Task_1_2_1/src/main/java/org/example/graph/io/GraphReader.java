@@ -24,6 +24,9 @@ public class GraphReader {
 
         try (Scanner scanner = new Scanner(new File(filename))) {
             int vertexCount = scanner.nextInt();
+            if (vertexCount < 0) {
+                throw new IllegalArgumentException("Vertex count must not be negative");
+            }
 
             for (int i = 0; i < vertexCount; i++) {
                 int id = scanner.nextInt();
@@ -31,6 +34,9 @@ public class GraphReader {
             }
 
             int edgeCount = scanner.nextInt();
+            if (edgeCount < 0) {
+                throw new IllegalArgumentException("Edge count must not be negative");
+            }
 
             for (int i = 0; i < edgeCount; i++) {
                 int from = scanner.nextInt();
