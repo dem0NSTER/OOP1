@@ -1,10 +1,12 @@
 package org.example.graph;
 
 import java.util.Set;
-
 import org.example.graph.models.Edge;
 import org.example.graph.models.Vertex;
 
+/**
+ * Ориентированный граф без петель и кратных рёбер.
+ */
 public interface Graph {
 
     void addVertex(Vertex vertex);

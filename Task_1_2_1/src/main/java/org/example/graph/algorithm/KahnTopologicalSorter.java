@@ -1,10 +1,17 @@
 package org.example.graph.algorithm;
 
-import java.util.*;
-
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 import org.example.graph.Graph;
 import org.example.graph.models.Vertex;
 
+/**
+ * Сортирует вершины графа алгоритмом Кана.
+ */
 public class KahnTopologicalSorter implements TopologicalSorter {
 
     @Override

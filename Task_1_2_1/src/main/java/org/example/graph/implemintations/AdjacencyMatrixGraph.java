@@ -1,16 +1,17 @@
 package org.example.graph.implemintations;
 
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.Objects;
-
+import java.util.Set;
 import org.example.graph.Graph;
 import org.example.graph.models.Edge;
 import org.example.graph.models.Vertex;
 
+/**
+ * Хранит граф в виде матрицы смежности.
+ */
 public class AdjacencyMatrixGraph implements Graph {
 
     private final List<Vertex> vertices;

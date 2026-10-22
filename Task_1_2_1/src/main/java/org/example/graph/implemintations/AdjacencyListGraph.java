@@ -3,13 +3,15 @@ package org.example.graph.implemintations;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.Objects;
-
+import java.util.Set;
 import org.example.graph.Graph;
 import org.example.graph.models.Edge;
 import org.example.graph.models.Vertex;
 
+/**
+ * Хранит граф в виде списков смежности.
+ */
 public class AdjacencyListGraph implements Graph {
 
     private final Map<Vertex, Set<Vertex>> adjacencyList;

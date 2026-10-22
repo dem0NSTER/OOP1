@@ -1,9 +1,10 @@
 package org.example.graph.algorithm;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
-
 import org.example.graph.Graph;
 import org.example.graph.implemintations.AdjacencyListGraph;
 import org.example.graph.implemintations.AdjacencyMatrixGraph;
@@ -17,9 +18,9 @@ class KahnTopologicalSorterTest {
     @Test
     void shouldSortDagForAllGraphTypes() {
         Graph[] graphs = {
-                new AdjacencyListGraph(),
-                new AdjacencyMatrixGraph(),
-                new IncidenceMatrixGraph()
+            new AdjacencyListGraph(),
+            new AdjacencyMatrixGraph(),
+            new IncidenceMatrixGraph()
         };
 
         for (Graph graph : graphs) {

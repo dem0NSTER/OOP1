@@ -1,9 +1,10 @@
 package org.example.graph.io;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileNotFoundException;
-
 import org.example.graph.Graph;
 import org.example.graph.implemintations.AdjacencyListGraph;
 import org.example.graph.models.Edge;
@@ -16,14 +17,13 @@ class GraphReaderTest {
     void shouldReadGraphFromFile() throws FileNotFoundException {
         Graph graph = GraphReader.read(
                 "src/test/resources/graph.txt", AdjacencyListGraph::new);
-        Vertex v1 = new Vertex(1);
-        Vertex v2 = new Vertex(2);
-        Vertex v3 = new Vertex(3);
-
         assertEquals(3, graph.vertexCount());
         assertEquals(2, graph.edgeCount());
+        Vertex v1 = new Vertex(1);
         assertTrue(graph.containsVertex(v1));
+        Vertex v2 = new Vertex(2);
         assertTrue(graph.containsVertex(v2));
+        Vertex v3 = new Vertex(3);
         assertTrue(graph.containsVertex(v3));
         assertTrue(graph.containsEdge(new Edge(v1, v2)));
         assertTrue(graph.containsEdge(new Edge(v2, v3)));

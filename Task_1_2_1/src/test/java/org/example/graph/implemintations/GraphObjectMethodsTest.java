@@ -1,6 +1,7 @@
 package org.example.graph.implemintations;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.example.graph.Graph;
 import org.example.graph.models.Edge;
@@ -12,8 +13,6 @@ class GraphObjectMethodsTest {
     @Test
     void shouldCompareAllGraphTypes() {
         Graph list = new AdjacencyListGraph();
-        Graph adjacencyMatrix = new AdjacencyMatrixGraph();
-        Graph incidenceMatrix = new IncidenceMatrixGraph();
         Vertex v1 = new Vertex(1);
         Vertex v2 = new Vertex(2);
 
@@ -22,10 +21,12 @@ class GraphObjectMethodsTest {
         list.addEdge(new Edge(v1, v2));
 
         // Другой порядок добавления вершин не меняет сам граф.
+        Graph adjacencyMatrix = new AdjacencyMatrixGraph();
         adjacencyMatrix.addVertex(v2);
         adjacencyMatrix.addVertex(v1);
         adjacencyMatrix.addEdge(new Edge(v1, v2));
 
+        Graph incidenceMatrix = new IncidenceMatrixGraph();
         incidenceMatrix.addVertex(v1);
         incidenceMatrix.addVertex(v2);
         incidenceMatrix.addEdge(new Edge(v1, v2));

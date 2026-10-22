@@ -1,11 +1,17 @@
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.example.*;
+import org.example.Add;
+import org.example.Div;
+import org.example.Expression;
+import org.example.Mul;
 import org.example.Number;
+import org.example.Sub;
+import org.example.Variable;
 import org.junit.jupiter.api.Test;
 
 class ExpressionEvalTest {
