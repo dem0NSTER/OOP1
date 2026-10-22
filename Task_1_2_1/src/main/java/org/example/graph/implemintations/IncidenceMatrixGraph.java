@@ -42,23 +42,13 @@ public class IncidenceMatrixGraph implements Graph {
 
     @Override
     public void removeVertex(Vertex vertex) {
-        int vertexIndex = vertices.indexOf(vertex);
-
-        if (vertexIndex == -1) {
-            throw new IllegalArgumentException(
-                    "Vertex does not exist: " + vertex
-            );
-        }
+        int vertexIndex = getVertexIndex(vertex);
 
         for (int edgeIndex = edges.size() - 1; edgeIndex >= 0; edgeIndex--) {
             Edge edge = edges.get(edgeIndex);
 
             if (edge.from().equals(vertex) || edge.to().equals(vertex)) {
-                edges.remove(edgeIndex);
-
-                for (List<Integer> row : matrix) {
-                    row.remove(edgeIndex);
-                }
+                removeEdgeAtIndex(edgeIndex);
             }
         }
 
@@ -103,28 +93,13 @@ public class IncidenceMatrixGraph implements Graph {
 
     @Override
     public void removeEdge(Edge edge) {
-        int edgeIndex = edges.indexOf(edge);
-
-        if (edgeIndex == -1) {
-            throw new IllegalArgumentException(
-                    "Edge does not exist: " + edge
-            );
-        }
-
-        edges.remove(edgeIndex);
-
-        for (List<Integer> row : matrix) {
-            row.remove(edgeIndex);
-        }
+        int edgeIndex = getEdgeIndex(edge);
+        removeEdgeAtIndex(edgeIndex);
     }
 
     @Override
     public Set<Vertex> getNeighbors(Vertex vertex) {
-        if (!vertices.contains(vertex)) {
-            throw new IllegalArgumentException(
-                    "Vertex does not exist: " + vertex
-            );
-        }
+        getVertexIndex(vertex);
 
         Set<Vertex> neighbors = new HashSet<>();
 
@@ -165,6 +140,29 @@ public class IncidenceMatrixGraph implements Graph {
     @Override
     public int edgeCount() {
         return edges.size();
+    }
+
+    private int getVertexIndex(Vertex vertex) {
+        int index = vertices.indexOf(vertex);
+        if (index == -1) {
+            throw new IllegalArgumentException("Vertex does not exist: " + vertex);
+        }
+        return index;
+    }
+
+    private int getEdgeIndex(Edge edge) {
+        int index = edges.indexOf(edge);
+        if (index == -1) {
+            throw new IllegalArgumentException("Edge does not exist: " + edge);
+        }
+        return index;
+    }
+
+    private void removeEdgeAtIndex(int edgeIndex) {
+        edges.remove(edgeIndex);
+        for (List<Integer> row : matrix) {
+            row.remove(edgeIndex);
+        }
     }
 
     /**

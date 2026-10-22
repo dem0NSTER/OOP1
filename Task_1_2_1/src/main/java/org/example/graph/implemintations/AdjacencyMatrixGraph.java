@@ -49,13 +49,7 @@ public class AdjacencyMatrixGraph implements Graph {
 
     @Override
     public void removeVertex(Vertex vertex) {
-        int index = vertices.indexOf(vertex);
-
-        if (index == -1) {
-            throw new IllegalArgumentException(
-                    "Vertex does not exist: " + vertex
-            );
-        }
+        int index = getVertexIndex(vertex);
 
         // Удаляем строку
         edgesMatrix.remove(index);
@@ -73,11 +67,7 @@ public class AdjacencyMatrixGraph implements Graph {
         int fromIndex = vertices.indexOf(edge.from());
         int toIndex = vertices.indexOf(edge.to());
 
-        if (fromIndex == -1 || toIndex == -1) {
-            throw new IllegalArgumentException(
-                    "Both vertices must exist"
-            );
-        }
+        checkEdgeVerticesExist(fromIndex, toIndex);
 
         if (fromIndex == toIndex) {
             throw new IllegalArgumentException(
@@ -99,30 +89,16 @@ public class AdjacencyMatrixGraph implements Graph {
         int fromIndex = vertices.indexOf(edge.from());
         int toIndex = vertices.indexOf(edge.to());
 
-        if (fromIndex == -1 || toIndex == -1) {
-            throw new IllegalArgumentException(
-                    "Both vertices must exist"
-            );
-        }
+        checkEdgeVerticesExist(fromIndex, toIndex);
 
-        if (!edgesMatrix.get(fromIndex).get(toIndex)) {
-            throw new IllegalArgumentException(
-                    "Edge does not exist: " + edge
-            );
-        }
+        checkEdgeExists(edge, fromIndex, toIndex);
 
         edgesMatrix.get(fromIndex).set(toIndex, false);
     }
 
     @Override
     public Set<Vertex> getNeighbors(Vertex vertex) {
-        int index = vertices.indexOf(vertex);
-
-        if (index == -1) {
-            throw new IllegalArgumentException(
-                    "Vertex does not exist: " + vertex
-            );
-        }
+        int index = getVertexIndex(vertex);
 
         Set<Vertex> neighbors = new HashSet<>();
 
@@ -196,6 +172,26 @@ public class AdjacencyMatrixGraph implements Graph {
         }
 
         return count;
+    }
+
+    private int getVertexIndex(Vertex vertex) {
+        int index = vertices.indexOf(vertex);
+        if (index == -1) {
+            throw new IllegalArgumentException("Vertex does not exist: " + vertex);
+        }
+        return index;
+    }
+
+    private void checkEdgeVerticesExist(int fromIndex, int toIndex) {
+        if (fromIndex == -1 || toIndex == -1) {
+            throw new IllegalArgumentException("Both vertices must exist");
+        }
+    }
+
+    private void checkEdgeExists(Edge edge, int fromIndex, int toIndex) {
+        if (!edgesMatrix.get(fromIndex).get(toIndex)) {
+            throw new IllegalArgumentException("Edge does not exist: " + edge);
+        }
     }
 
     /**

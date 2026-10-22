@@ -32,11 +32,7 @@ public class AdjacencyListGraph implements Graph {
 
     @Override
     public void removeVertex(Vertex vertex) {
-        if (!adjacencyList.containsKey(vertex)) {
-            throw new IllegalArgumentException(
-                    "Vertex does not exist: " + vertex
-            );
-        }
+        checkVertexExists(vertex);
 
         adjacencyList.remove(vertex);
 
@@ -50,11 +46,7 @@ public class AdjacencyListGraph implements Graph {
         Vertex from = edge.from();
         Vertex to = edge.to();
 
-        if (!adjacencyList.containsKey(from) || !adjacencyList.containsKey(to)) {
-            throw new IllegalArgumentException(
-                    "Both vertices must exist"
-            );
-        }
+        checkEdgeVerticesExist(edge);
 
         if (from.equals(to)) {
             throw new IllegalArgumentException(
@@ -78,30 +70,18 @@ public class AdjacencyListGraph implements Graph {
         Vertex from = edge.from();
         Vertex to = edge.to();
 
-        if (!adjacencyList.containsKey(from) || !adjacencyList.containsKey(to)) {
-            throw new IllegalArgumentException(
-                    "Both vertices must exist"
-            );
-        }
+        checkEdgeVerticesExist(edge);
 
         Set<Vertex> fromNeighbors = adjacencyList.get(from);
 
-        if (!fromNeighbors.contains(to)) {
-            throw new IllegalArgumentException(
-                    "Edge does not exist: " + edge
-            );
-        }
+        checkEdgeExists(edge);
 
         fromNeighbors.remove(to);
     }
 
     @Override
     public Set<Vertex> getNeighbors(Vertex vertex) {
-        if (!adjacencyList.containsKey(vertex)) {
-            throw new IllegalArgumentException(
-                    "Vertex does not exist: " + vertex
-            );
-        }
+        checkVertexExists(vertex);
 
         return new HashSet<>(adjacencyList.get(vertex));
     }
@@ -157,6 +137,24 @@ public class AdjacencyListGraph implements Graph {
         }
 
         return count;
+    }
+
+    private void checkVertexExists(Vertex vertex) {
+        if (!containsVertex(vertex)) {
+            throw new IllegalArgumentException("Vertex does not exist: " + vertex);
+        }
+    }
+
+    private void checkEdgeVerticesExist(Edge edge) {
+        if (!containsVertex(edge.from()) || !containsVertex(edge.to())) {
+            throw new IllegalArgumentException("Both vertices must exist");
+        }
+    }
+
+    private void checkEdgeExists(Edge edge) {
+        if (!containsEdge(edge)) {
+            throw new IllegalArgumentException("Edge does not exist: " + edge);
+        }
     }
 
     /**
