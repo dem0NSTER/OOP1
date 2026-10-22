@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Objects;
 
 import org.example.graph.Graph;
 import org.example.graph.models.Edge;
@@ -164,6 +165,31 @@ public class IncidenceMatrixGraph implements Graph {
     @Override
     public int edgeCount() {
         return edges.size();
+    }
+
+    /**
+     * Compares graphs by their vertices and directed edges, regardless of implementation.
+     */
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof Graph graph)) {
+            return false;
+        }
+        return getVertices().equals(graph.getVertices())
+                && getEdges().equals(graph.getEdges());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getVertices(), getEdges());
+    }
+
+    @Override
+    public String toString() {
+        return "IncidenceMatrixGraph{vertices=" + getVertices() + ", edges=" + getEdges() + '}';
     }
 
 }
