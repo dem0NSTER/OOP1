@@ -3,8 +3,8 @@ package org.example.graph.implemintations;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
+import org.example.graph.AbstractGraph;
 import org.example.graph.Graph;
 import org.example.graph.models.Edge;
 import org.example.graph.models.Vertex;
@@ -12,7 +12,7 @@ import org.example.graph.models.Vertex;
 /**
  * Хранит граф в виде списков смежности.
  */
-public class AdjacencyListGraph implements Graph {
+public class AdjacencyListGraph extends AbstractGraph implements Graph {
 
     private final Map<Vertex, Set<Vertex>> adjacencyList;
 
@@ -157,31 +157,6 @@ public class AdjacencyListGraph implements Graph {
         if (!containsEdge(edge)) {
             throw new IllegalArgumentException("Edge does not exist: " + edge);
         }
-    }
-
-    /**
-     * Compares graphs by their vertices and directed edges, regardless of implementation.
-     */
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (!(object instanceof Graph graph)) {
-            return false;
-        }
-        return getVertices().equals(graph.getVertices())
-                && getEdges().equals(graph.getEdges());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getVertices(), getEdges());
-    }
-
-    @Override
-    public String toString() {
-        return "AdjacencyListGraph{vertices=" + getVertices() + ", edges=" + getEdges() + '}';
     }
 
 }

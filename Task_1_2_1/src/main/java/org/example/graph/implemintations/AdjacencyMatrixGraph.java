@@ -3,8 +3,8 @@ package org.example.graph.implemintations;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
+import org.example.graph.AbstractGraph;
 import org.example.graph.Graph;
 import org.example.graph.models.Edge;
 import org.example.graph.models.Vertex;
@@ -12,7 +12,7 @@ import org.example.graph.models.Vertex;
 /**
  * Хранит граф в виде матрицы смежности.
  */
-public class AdjacencyMatrixGraph implements Graph {
+public class AdjacencyMatrixGraph extends AbstractGraph implements Graph {
 
     private final List<Vertex> vertices;
     private final List<List<Boolean>> edgesMatrix;
@@ -193,31 +193,6 @@ public class AdjacencyMatrixGraph implements Graph {
         if (!edgesMatrix.get(fromIndex).get(toIndex)) {
             throw new IllegalArgumentException("Edge does not exist: " + edge);
         }
-    }
-
-    /**
-     * Compares graphs by their vertices and directed edges, regardless of implementation.
-     */
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (!(object instanceof Graph graph)) {
-            return false;
-        }
-        return getVertices().equals(graph.getVertices())
-                && getEdges().equals(graph.getEdges());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getVertices(), getEdges());
-    }
-
-    @Override
-    public String toString() {
-        return "AdjacencyMatrixGraph{vertices=" + getVertices() + ", edges=" + getEdges() + '}';
     }
 
 }

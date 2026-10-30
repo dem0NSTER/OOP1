@@ -3,8 +3,8 @@ package org.example.graph.implemintations;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
+import org.example.graph.AbstractGraph;
 import org.example.graph.Graph;
 import org.example.graph.models.Edge;
 import org.example.graph.models.Vertex;
@@ -12,7 +12,7 @@ import org.example.graph.models.Vertex;
 /**
  * Хранит граф в виде матрицы инцидентности.
  */
-public class IncidenceMatrixGraph implements Graph {
+public class IncidenceMatrixGraph extends AbstractGraph implements Graph {
 
     private final List<Vertex> vertices;
     private final List<Edge> edges;
@@ -168,31 +168,6 @@ public class IncidenceMatrixGraph implements Graph {
         for (List<Integer> row : matrix) {
             row.remove(edgeIndex);
         }
-    }
-
-    /**
-     * Compares graphs by their vertices and directed edges, regardless of implementation.
-     */
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (!(object instanceof Graph graph)) {
-            return false;
-        }
-        return getVertices().equals(graph.getVertices())
-                && getEdges().equals(graph.getEdges());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getVertices(), getEdges());
-    }
-
-    @Override
-    public String toString() {
-        return "IncidenceMatrixGraph{vertices=" + getVertices() + ", edges=" + getEdges() + '}';
     }
 
 }
