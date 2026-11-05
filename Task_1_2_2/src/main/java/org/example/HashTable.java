@@ -1,17 +1,22 @@
 package org.example;
 
+import java.util.AbstractMap;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
 /**
  * A hash table using separate chaining. Null keys are not supported.
  */
-public class HashTable<K, V> {
+public class HashTable<K, V> implements Iterable<Map.Entry<K, V>> {
     private static final int DEFAULT_CAPACITY = 16;
     private static final double LOAD_FACTOR = 0.75;
 
     private Node<K, V>[] buckets;
     private int size;
+    private int modCount;
 
     public HashTable() {
         @SuppressWarnings("unchecked")
@@ -39,6 +44,7 @@ public class HashTable<K, V> {
 
         buckets[index] = new Node<>(key, value, buckets[index]);
         size++;
+        modCount++;
 
         if (size > buckets.length * LOAD_FACTOR) {
             resize();
@@ -79,6 +85,7 @@ public class HashTable<K, V> {
                 }
 
                 size--;
+                modCount++;
                 return;
             }
 
@@ -99,6 +106,7 @@ public class HashTable<K, V> {
         while (current != null) {
             if (current.key.equals(key)) {
                 current.value = value;
+                modCount++;
                 return;
             }
 
@@ -106,6 +114,11 @@ public class HashTable<K, V> {
         }
 
         throw new NoSuchElementException("Key not found: " + key);
+    }
+
+    @Override
+    public Iterator<Map.Entry<K, V>> iterator() {
+        return new HashTableIterator();
     }
 
     @SuppressWarnings("unchecked")
@@ -139,6 +152,44 @@ public class HashTable<K, V> {
         return Math.floorMod(key.hashCode(), buckets.length);
     }
 
+    private class HashTableIterator implements Iterator<Map.Entry<K, V>> {
+        private final int expectedModCount = modCount;
+        private int bucketIndex;
+        private Node<K, V> nextNode;
+
+        private HashTableIterator() {
+            advanceToNextBucket();
+        }
+
+        @Override
+        public boolean hasNext() {
+            if (expectedModCount != modCount) {
+                throw new ConcurrentModificationException();
+            }
+
+            return nextNode != null;
+        }
+
+        @Override
+        public Map.Entry<K, V> next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+
+            Node<K, V> current = nextNode;
+            nextNode = current.next;
+            advanceToNextBucket();
+
+            return new AbstractMap.SimpleImmutableEntry<>(current.key, current.value);
+        }
+
+        private void advanceToNextBucket() {
+            while (nextNode == null && bucketIndex < buckets.length) {
+                nextNode = buckets[bucketIndex++];
+            }
+        }
+    }
+
     private static class Node<K, V> {
         private final K key;
         private V value;
@@ -150,5 +201,4 @@ public class HashTable<K, V> {
             this.next = next;
         }
     }
-
 }
