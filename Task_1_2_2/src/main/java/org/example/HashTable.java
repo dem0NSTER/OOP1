@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Objects;
+
 /**
  * A hash table using separate chaining. Null keys are not supported.
  */
@@ -14,6 +16,27 @@ public class HashTable<K, V> {
         Node<K, V>[] initialBuckets = (Node<K, V>[]) new Node<?, ?>[DEFAULT_CAPACITY];
         buckets = initialBuckets;
         size = 0;
+    }
+
+    public void put(K key, V value) {
+        Objects.requireNonNull(key, "Key cannot be null");
+
+        int index = getBucketIndex(key);
+
+        Node<K, V> current = buckets[index];
+
+        while (current != null) {
+            if (current.key.equals(key)) {
+                throw new IllegalArgumentException(
+                        "Key already exists: " + key
+                );
+            }
+
+            current = current.next;
+        }
+
+        buckets[index] = new Node<>(key, value, buckets[index]);
+        size++;
     }
 
     private int getBucketIndex(K key) {
