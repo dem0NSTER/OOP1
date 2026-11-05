@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 /**
@@ -37,6 +38,23 @@ public class HashTable<K, V> {
 
         buckets[index] = new Node<>(key, value, buckets[index]);
         size++;
+    }
+
+    public V get(K key) {
+        Objects.requireNonNull(key, "Key cannot be null");
+
+        int index = getBucketIndex(key);
+        Node<K, V> current = buckets[index];
+
+        while (current != null) {
+            if (current.key.equals(key)) {
+                return current.value;
+            }
+
+            current = current.next;
+        }
+
+        throw new NoSuchElementException("Key not found: " + key);
     }
 
     private int getBucketIndex(K key) {
