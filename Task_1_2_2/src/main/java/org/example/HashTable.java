@@ -8,6 +8,7 @@ import java.util.Objects;
  */
 public class HashTable<K, V> {
     private static final int DEFAULT_CAPACITY = 16;
+    private static final double LOAD_FACTOR = 0.75;
 
     private Node<K, V>[] buckets;
     private int size;
@@ -38,6 +39,10 @@ public class HashTable<K, V> {
 
         buckets[index] = new Node<>(key, value, buckets[index]);
         size++;
+
+        if (size > buckets.length * LOAD_FACTOR) {
+            resize();
+        }
     }
 
     public V get(K key) {
@@ -101,6 +106,33 @@ public class HashTable<K, V> {
         }
 
         throw new NoSuchElementException("Key not found: " + key);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void resize() {
+        Node<K, V>[] oldBuckets = buckets;
+
+        Node<K, V>[] newBuckets = (Node<K, V>[]) new Node<?, ?>[oldBuckets.length * 2];
+
+        for (Node<K, V> head : oldBuckets) {
+            Node<K, V> current = head;
+
+            while (current != null) {
+                Node<K, V> next = current.next;
+
+                int newIndex = Math.floorMod(
+                        current.key.hashCode(),
+                        newBuckets.length
+                );
+
+                current.next = newBuckets[newIndex];
+                newBuckets[newIndex] = current;
+
+                current = next;
+            }
+        }
+
+        buckets = newBuckets;
     }
 
     private int getBucketIndex(K key) {
