@@ -84,6 +84,25 @@ public class HashTable<K, V> {
         throw new NoSuchElementException("Key not found: " + key);
     }
 
+    public void update(K key, V value) {
+        Objects.requireNonNull(key, "Key cannot be null");
+
+        int index = getBucketIndex(key);
+
+        Node<K, V> current = buckets[index];
+
+        while (current != null) {
+            if (current.key.equals(key)) {
+                current.value = value;
+                return;
+            }
+
+            current = current.next;
+        }
+
+        throw new NoSuchElementException("Key not found: " + key);
+    }
+
     private int getBucketIndex(K key) {
         return Math.floorMod(key.hashCode(), buckets.length);
     }
