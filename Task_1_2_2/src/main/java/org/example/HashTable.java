@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * A hash table using separate chaining. Null keys are not supported.
@@ -121,6 +122,46 @@ public class HashTable<K, V> implements Iterable<Map.Entry<K, V>> {
         return new HashTableIterator();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof HashTable<?, ?> other)) {
+            return false;
+        }
+        if (size != other.size) {
+            return false;
+        }
+
+        for (Map.Entry<K, V> entry : this) {
+            Node<?, ?> node = other.findNode(entry.getKey());
+            if (node == null || !Objects.equals(entry.getValue(), node.value)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        for (Map.Entry<K, V> entry : this) {
+            hash += Objects.hashCode(entry.getKey()) ^ Objects.hashCode(entry.getValue());
+        }
+        return hash;
+    }
+
+    @Override
+    public String toString() {
+        StringJoiner result = new StringJoiner(", ", "{", "}");
+        for (Map.Entry<K, V> entry : this) {
+            result.add(entry.getKey() + "=" + entry.getValue());
+        }
+        return result.toString();
+    }
+
     @SuppressWarnings("unchecked")
     private void resize() {
         Node<K, V>[] oldBuckets = buckets;
@@ -150,6 +191,20 @@ public class HashTable<K, V> implements Iterable<Map.Entry<K, V>> {
 
     private int getBucketIndex(K key) {
         return Math.floorMod(key.hashCode(), buckets.length);
+    }
+
+    private Node<K, V> findNode(Object key) {
+        int index = Math.floorMod(key.hashCode(), buckets.length);
+        Node<K, V> current = buckets[index];
+
+        while (current != null) {
+            if (current.key.equals(key)) {
+                return current;
+            }
+            current = current.next;
+        }
+
+        return null;
     }
 
     private class HashTableIterator implements Iterator<Map.Entry<K, V>> {
