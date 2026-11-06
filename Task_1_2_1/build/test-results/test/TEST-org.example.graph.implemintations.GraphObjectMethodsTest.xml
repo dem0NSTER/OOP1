@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.example.graph.implemintations.GraphObjectMethodsTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2026-10-30T03:36:35.138Z" hostname="MacBook-Air-Pavel-2.local" time="0.003">
+  <properties/>
+  <testcase name="shouldCompareAllGraphTypes()" classname="org.example.graph.implemintations.GraphObjectMethodsTest" time="0.001"/>
+  <testcase name="shouldDistinguishDifferentGraphs()" classname="org.example.graph.implemintations.GraphObjectMethodsTest" time="0.001"/>
+  <testcase name="shouldDescribeEmptyGraphs()" classname="org.example.graph.implemintations.GraphObjectMethodsTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

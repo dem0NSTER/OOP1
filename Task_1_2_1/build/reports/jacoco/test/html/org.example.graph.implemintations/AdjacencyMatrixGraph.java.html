@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdjacencyMatrixGraph.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Task_1_2_1</a> &gt; <a href="index.source.html" class="el_package">org.example.graph.implemintations</a> &gt; <span class="el_source">AdjacencyMatrixGraph.java</span></div><h1>AdjacencyMatrixGraph.java</h1><pre class="source lang-java linenums">package org.example.graph.implemintations;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import org.example.graph.AbstractGraph;
+import org.example.graph.models.Edge;
+import org.example.graph.models.Vertex;
+
+/**
+ * Хранит граф в виде матрицы смежности.
+ */
+public class AdjacencyMatrixGraph extends AbstractGraph {
+
+    private final List&lt;Vertex&gt; vertices;
+    private final List&lt;List&lt;Boolean&gt;&gt; edgesMatrix;
+
+<span class="fc" id="L19">    public AdjacencyMatrixGraph() {</span>
+<span class="fc" id="L20">        vertices = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L21">        edgesMatrix = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L22">    }</span>
+
+    @Override
+    public void addVertex(Vertex vertex) {
+<span class="fc bfc" id="L26" title="All 2 branches covered.">        if (vertices.contains(vertex)) {</span>
+<span class="fc" id="L27">            throw new IllegalArgumentException(</span>
+                    &quot;Vertex already exists: &quot; + vertex
+            );
+        }
+
+        // Добавляем новый столбец во все существующие строки
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        for (List&lt;Boolean&gt; row : edgesMatrix) {</span>
+<span class="fc" id="L34">            row.add(false);</span>
+<span class="fc" id="L35">        }</span>
+
+        // Добавляем новую строку
+<span class="fc" id="L38">        List&lt;Boolean&gt; newLine = new ArrayList&lt;&gt;();</span>
+
+<span class="fc" id="L40">        int newSize = vertices.size() + 1;</span>
+
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        for (int i = 0; i &lt; newSize; i++) {</span>
+<span class="fc" id="L43">            newLine.add(false);</span>
+        }
+
+<span class="fc" id="L46">        edgesMatrix.add(newLine);</span>
+<span class="fc" id="L47">        vertices.add(vertex);</span>
+<span class="fc" id="L48">    }</span>
+
+    @Override
+    public void removeVertex(Vertex vertex) {
+<span class="fc" id="L52">        int index = getVertexIndex(vertex);</span>
+
+        // Удаляем строку
+<span class="fc" id="L55">        edgesMatrix.remove(index);</span>
+
+        // Удаляем соответствующий столбец
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        for (List&lt;Boolean&gt; row : edgesMatrix) {</span>
+<span class="fc" id="L59">            row.remove(index);</span>
+<span class="fc" id="L60">        }</span>
+
+<span class="fc" id="L62">        vertices.remove(index);</span>
+<span class="fc" id="L63">    }</span>
+
+    @Override
+    public void addEdge(Edge edge) {
+<span class="fc" id="L67">        int fromIndex = vertices.indexOf(edge.from());</span>
+<span class="fc" id="L68">        int toIndex = vertices.indexOf(edge.to());</span>
+
+<span class="fc" id="L70">        checkEdgeVerticesExist(fromIndex, toIndex);</span>
+
+<span class="fc bfc" id="L72" title="All 2 branches covered.">        if (fromIndex == toIndex) {</span>
+<span class="fc" id="L73">            throw new IllegalArgumentException(</span>
+                    &quot;Loops are not allowed&quot;
+            );
+        }
+
+<span class="pc bpc" id="L78" title="1 of 2 branches missed.">        if (edgesMatrix.get(fromIndex).get(toIndex)) {</span>
+<span class="nc" id="L79">            throw new IllegalArgumentException(</span>
+                    &quot;Edge already exists: &quot; + edge
+            );
+        }
+
+<span class="fc" id="L84">        edgesMatrix.get(fromIndex).set(toIndex, true);</span>
+<span class="fc" id="L85">    }</span>
+
+    @Override
+    public void removeEdge(Edge edge) {
+<span class="fc" id="L89">        int fromIndex = vertices.indexOf(edge.from());</span>
+<span class="fc" id="L90">        int toIndex = vertices.indexOf(edge.to());</span>
+
+<span class="fc" id="L92">        checkEdgeVerticesExist(fromIndex, toIndex);</span>
+
+<span class="fc" id="L94">        checkEdgeExists(edge, fromIndex, toIndex);</span>
+
+<span class="fc" id="L96">        edgesMatrix.get(fromIndex).set(toIndex, false);</span>
+<span class="fc" id="L97">    }</span>
+
+    @Override
+    public Set&lt;Vertex&gt; getNeighbors(Vertex vertex) {
+<span class="fc" id="L101">        int index = getVertexIndex(vertex);</span>
+
+<span class="fc" id="L103">        Set&lt;Vertex&gt; neighbors = new HashSet&lt;&gt;();</span>
+
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        for (int i = 0; i &lt; vertices.size(); i++) {</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">            if (edgesMatrix.get(index).get(i)) {</span>
+<span class="fc" id="L107">                neighbors.add(vertices.get(i));</span>
+            }
+        }
+
+<span class="fc" id="L111">        return new HashSet&lt;&gt;(neighbors);</span>
+    }
+
+    @Override
+    public Set&lt;Vertex&gt; getVertices() {
+<span class="fc" id="L116">        return new HashSet&lt;&gt;(vertices);</span>
+    }
+
+    @Override
+    public Set&lt;Edge&gt; getEdges() {
+<span class="fc" id="L121">        Set&lt;Edge&gt; edges = new HashSet&lt;&gt;();</span>
+
+<span class="fc bfc" id="L123" title="All 2 branches covered.">        for (int from = 0; from &lt; vertices.size(); from++) {</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">            for (int to = 0; to &lt; vertices.size(); to++) {</span>
+
+<span class="fc bfc" id="L126" title="All 2 branches covered.">                if (edgesMatrix.get(from).get(to)) {</span>
+<span class="fc" id="L127">                    edges.add(</span>
+                            new Edge(
+<span class="fc" id="L129">                                    vertices.get(from),</span>
+<span class="fc" id="L130">                                    vertices.get(to)</span>
+                            )
+                    );
+                }
+            }
+        }
+
+<span class="fc" id="L137">        return edges;</span>
+    }
+
+    @Override
+    public boolean containsVertex(Vertex vertex) {
+<span class="fc" id="L142">        return vertices.contains(vertex);</span>
+    }
+
+    @Override
+    public boolean containsEdge(Edge edge) {
+<span class="fc" id="L147">        int fromIndex = vertices.indexOf(edge.from());</span>
+<span class="fc" id="L148">        int toIndex = vertices.indexOf(edge.to());</span>
+
+<span class="pc bpc" id="L150" title="1 of 4 branches missed.">        if (fromIndex == -1 || toIndex == -1) {</span>
+<span class="fc" id="L151">            return false;</span>
+        }
+
+<span class="fc" id="L154">        return edgesMatrix.get(fromIndex).get(toIndex);</span>
+    }
+
+    @Override
+    public int vertexCount() {
+<span class="fc" id="L159">        return vertices.size();</span>
+    }
+
+    @Override
+    public int edgeCount() {
+<span class="fc" id="L164">        int count = 0;</span>
+
+<span class="fc bfc" id="L166" title="All 2 branches covered.">        for (List&lt;Boolean&gt; row : edgesMatrix) {</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">            for (boolean hasEdge : row) {</span>
+<span class="fc bfc" id="L168" title="All 2 branches covered.">                if (hasEdge) {</span>
+<span class="fc" id="L169">                    count++;</span>
+                }
+<span class="fc" id="L171">            }</span>
+<span class="fc" id="L172">        }</span>
+
+<span class="fc" id="L174">        return count;</span>
+    }
+
+    private int getVertexIndex(Vertex vertex) {
+<span class="fc" id="L178">        int index = vertices.indexOf(vertex);</span>
+<span class="pc bpc" id="L179" title="1 of 2 branches missed.">        if (index == -1) {</span>
+<span class="nc" id="L180">            throw new IllegalArgumentException(&quot;Vertex does not exist: &quot; + vertex);</span>
+        }
+<span class="fc" id="L182">        return index;</span>
+    }
+
+    private void checkEdgeVerticesExist(int fromIndex, int toIndex) {
+<span class="pc bpc" id="L186" title="1 of 4 branches missed.">        if (fromIndex == -1 || toIndex == -1) {</span>
+<span class="fc" id="L187">            throw new IllegalArgumentException(&quot;Both vertices must exist&quot;);</span>
+        }
+<span class="fc" id="L189">    }</span>
+
+    private void checkEdgeExists(Edge edge, int fromIndex, int toIndex) {
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">        if (!edgesMatrix.get(fromIndex).get(toIndex)) {</span>
+<span class="nc" id="L193">            throw new IllegalArgumentException(&quot;Edge does not exist: &quot; + edge);</span>
+        }
+<span class="fc" id="L195">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

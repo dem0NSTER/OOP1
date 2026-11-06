@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.example.graph.implemintations.IncidenceMatrixGraphTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2026-10-30T03:36:35.141Z" hostname="MacBook-Air-Pavel-2.local" time="0.004">
+  <properties/>
+  <testcase name="shouldAddEdge()" classname="org.example.graph.implemintations.IncidenceMatrixGraphTest" time="0.0"/>
+  <testcase name="shouldAddVertex()" classname="org.example.graph.implemintations.IncidenceMatrixGraphTest" time="0.0"/>
+  <testcase name="shouldReturnAllEdges()" classname="org.example.graph.implemintations.IncidenceMatrixGraphTest" time="0.0"/>
+  <testcase name="shouldRemoveEdgesConnectedToRemovedVertex()" classname="org.example.graph.implemintations.IncidenceMatrixGraphTest" time="0.0"/>
+  <testcase name="shouldRemoveEdge()" classname="org.example.graph.implemintations.IncidenceMatrixGraphTest" time="0.0"/>
+  <testcase name="shouldNotAddLoop()" classname="org.example.graph.implemintations.IncidenceMatrixGraphTest" time="0.0"/>
+  <testcase name="shouldReturnAllVertices()" classname="org.example.graph.implemintations.IncidenceMatrixGraphTest" time="0.0"/>
+  <testcase name="shouldReturnNeighbors()" classname="org.example.graph.implemintations.IncidenceMatrixGraphTest" time="0.0"/>
+  <testcase name="shouldNotAddEdgeWithoutVertices()" classname="org.example.graph.implemintations.IncidenceMatrixGraphTest" time="0.0"/>
+  <testcase name="shouldRemoveVertex()" classname="org.example.graph.implemintations.IncidenceMatrixGraphTest" time="0.0"/>
+  <testcase name="shouldNotAddSameVertexTwice()" classname="org.example.graph.implemintations.IncidenceMatrixGraphTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
