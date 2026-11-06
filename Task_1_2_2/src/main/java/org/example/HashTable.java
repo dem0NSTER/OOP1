@@ -10,6 +10,9 @@ import java.util.StringJoiner;
 
 /**
  * A hash table using separate chaining. Null keys are not supported.
+ *
+ * @param <K> the key type
+ * @param <V> the value type
  */
 public class HashTable<K, V> implements Iterable<Map.Entry<K, V>> {
     private static final int DEFAULT_CAPACITY = 16;
@@ -19,6 +22,9 @@ public class HashTable<K, V> implements Iterable<Map.Entry<K, V>> {
     private int size;
     private int modCount;
 
+    /**
+     * Creates an empty hash table with the default capacity.
+     */
     public HashTable() {
         @SuppressWarnings("unchecked")
         Node<K, V>[] initialBuckets = (Node<K, V>[]) new Node<?, ?>[DEFAULT_CAPACITY];
@@ -26,6 +32,14 @@ public class HashTable<K, V> implements Iterable<Map.Entry<K, V>> {
         size = 0;
     }
 
+    /**
+     * Adds a new key-value pair to the table.
+     *
+     * @param key the key to add
+     * @param value the value to store, which may be null
+     * @throws NullPointerException if the key is null
+     * @throws IllegalArgumentException if the key already exists
+     */
     public void put(K key, V value) {
         Objects.requireNonNull(key, "Key cannot be null");
 
@@ -52,6 +66,14 @@ public class HashTable<K, V> implements Iterable<Map.Entry<K, V>> {
         }
     }
 
+    /**
+     * Returns the value associated with the key.
+     *
+     * @param key the key to find
+     * @return the associated value, which may be null
+     * @throws NullPointerException if the key is null
+     * @throws NoSuchElementException if the key does not exist
+     */
     public V get(K key) {
         Objects.requireNonNull(key, "Key cannot be null");
 
@@ -69,6 +91,13 @@ public class HashTable<K, V> implements Iterable<Map.Entry<K, V>> {
         throw new NoSuchElementException("Key not found: " + key);
     }
 
+    /**
+     * Removes the pair associated with the key.
+     *
+     * @param key the key to remove
+     * @throws NullPointerException if the key is null
+     * @throws NoSuchElementException if the key does not exist
+     */
     public void remove(K key) {
         Objects.requireNonNull(key, "Key cannot be null");
 
@@ -97,6 +126,14 @@ public class HashTable<K, V> implements Iterable<Map.Entry<K, V>> {
         throw new NoSuchElementException("Key not found: " + key);
     }
 
+    /**
+     * Replaces the value associated with an existing key.
+     *
+     * @param key the key to update
+     * @param value the replacement value, which may be null
+     * @throws NullPointerException if the key is null
+     * @throws NoSuchElementException if the key does not exist
+     */
     public void update(K key, V value) {
         Objects.requireNonNull(key, "Key cannot be null");
 
