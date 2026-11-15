@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdjacencyListGraph.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Task_1_2_1</a> &gt; <a href="index.source.html" class="el_package">org.example.graph.implemintations</a> &gt; <span class="el_source">AdjacencyListGraph.java</span></div><h1>AdjacencyListGraph.java</h1><pre class="source lang-java linenums">package org.example.graph.implemintations;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import org.example.graph.AbstractGraph;
+import org.example.graph.models.Edge;
+import org.example.graph.models.Vertex;
+
+/**
+ * Хранит граф в виде списков смежности.
+ */
+public class AdjacencyListGraph extends AbstractGraph {
+
+    private final Map&lt;Vertex, Set&lt;Vertex&gt;&gt; adjacencyList;
+
+<span class="fc" id="L18">    public AdjacencyListGraph() {</span>
+<span class="fc" id="L19">        adjacencyList = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L20">    }</span>
+
+    @Override
+    public void addVertex(Vertex vertex) {
+
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (adjacencyList.containsKey(vertex)) {</span>
+<span class="fc" id="L26">            throw new IllegalArgumentException(</span>
+                    &quot;Vertex already exists: &quot; + vertex
+            );
+        }
+
+<span class="fc" id="L31">        adjacencyList.put(vertex, new HashSet&lt;&gt;());</span>
+<span class="fc" id="L32">    }</span>
+
+    @Override
+    public void removeVertex(Vertex vertex) {
+<span class="fc" id="L36">        checkVertexExists(vertex);</span>
+
+<span class="fc" id="L38">        adjacencyList.remove(vertex);</span>
+
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        for (Set&lt;Vertex&gt; neighbors : adjacencyList.values()) {</span>
+<span class="fc" id="L41">            neighbors.remove(vertex);</span>
+<span class="fc" id="L42">        }</span>
+<span class="fc" id="L43">    }</span>
+
+    @Override
+    public void addEdge(Edge edge) {
+<span class="fc" id="L47">        Vertex from = edge.from();</span>
+<span class="fc" id="L48">        Vertex to = edge.to();</span>
+
+<span class="fc" id="L50">        checkEdgeVerticesExist(edge);</span>
+
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (from.equals(to)) {</span>
+<span class="fc" id="L53">            throw new IllegalArgumentException(</span>
+                    &quot;Loops are not allowed&quot;
+            );
+        }
+
+<span class="fc" id="L58">        Set&lt;Vertex&gt; fromNeighbors = adjacencyList.get(from);</span>
+
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        if (fromNeighbors.contains(to)) {</span>
+<span class="nc" id="L61">            throw new IllegalArgumentException(</span>
+                    &quot;Edge already exists: &quot; + edge
+            );
+        }
+
+<span class="fc" id="L66">        fromNeighbors.add(to);</span>
+<span class="fc" id="L67">    }</span>
+
+    @Override
+    public void removeEdge(Edge edge) {
+<span class="fc" id="L71">        Vertex from = edge.from();</span>
+<span class="fc" id="L72">        Vertex to = edge.to();</span>
+
+<span class="fc" id="L74">        checkEdgeVerticesExist(edge);</span>
+
+<span class="fc" id="L76">        Set&lt;Vertex&gt; fromNeighbors = adjacencyList.get(from);</span>
+
+<span class="fc" id="L78">        checkEdgeExists(edge);</span>
+
+<span class="fc" id="L80">        fromNeighbors.remove(to);</span>
+<span class="fc" id="L81">    }</span>
+
+    @Override
+    public Set&lt;Vertex&gt; getNeighbors(Vertex vertex) {
+<span class="fc" id="L85">        checkVertexExists(vertex);</span>
+
+<span class="fc" id="L87">        return new HashSet&lt;&gt;(adjacencyList.get(vertex));</span>
+    }
+
+    @Override
+    public Set&lt;Vertex&gt; getVertices() {
+<span class="fc" id="L92">        return new HashSet&lt;&gt;(adjacencyList.keySet());</span>
+    }
+
+    @Override
+    public Set&lt;Edge&gt; getEdges() {
+<span class="fc" id="L97">        Set&lt;Edge&gt; edges = new HashSet&lt;&gt;();</span>
+
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        for (Map.Entry&lt;Vertex, Set&lt;Vertex&gt;&gt; entry : adjacencyList.entrySet()) {</span>
+<span class="fc" id="L100">            Vertex from = entry.getKey();</span>
+
+<span class="fc bfc" id="L102" title="All 2 branches covered.">            for (Vertex to : entry.getValue()) {</span>
+<span class="fc" id="L103">                edges.add(new Edge(from, to));</span>
+<span class="fc" id="L104">            }</span>
+<span class="fc" id="L105">        }</span>
+
+<span class="fc" id="L107">        return new HashSet&lt;&gt;(edges);</span>
+    }
+
+    @Override
+    public boolean containsVertex(Vertex vertex) {
+<span class="fc" id="L112">        return adjacencyList.containsKey(vertex);</span>
+    }
+
+    @Override
+    public boolean containsEdge(Edge edge) {
+<span class="fc" id="L117">        Vertex from = edge.from();</span>
+<span class="fc" id="L118">        Vertex to = edge.to();</span>
+
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">        if (!adjacencyList.containsKey(from)) {</span>
+<span class="nc" id="L121">            return false;</span>
+        }
+
+<span class="fc" id="L124">        return adjacencyList.get(from).contains(to);</span>
+    }
+
+    @Override
+    public int vertexCount() {
+<span class="fc" id="L129">        return adjacencyList.size();</span>
+    }
+
+    @Override
+    public int edgeCount() {
+<span class="fc" id="L134">        int count = 0;</span>
+
+<span class="fc bfc" id="L136" title="All 2 branches covered.">        for (Set&lt;Vertex&gt; neighbors : adjacencyList.values()) {</span>
+<span class="fc" id="L137">            count += neighbors.size();</span>
+<span class="fc" id="L138">        }</span>
+
+<span class="fc" id="L140">        return count;</span>
+    }
+
+    private void checkVertexExists(Vertex vertex) {
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">        if (!containsVertex(vertex)) {</span>
+<span class="nc" id="L145">            throw new IllegalArgumentException(&quot;Vertex does not exist: &quot; + vertex);</span>
+        }
+<span class="fc" id="L147">    }</span>
+
+    private void checkEdgeVerticesExist(Edge edge) {
+<span class="pc bpc" id="L150" title="1 of 4 branches missed.">        if (!containsVertex(edge.from()) || !containsVertex(edge.to())) {</span>
+<span class="fc" id="L151">            throw new IllegalArgumentException(&quot;Both vertices must exist&quot;);</span>
+        }
+<span class="fc" id="L153">    }</span>
+
+    private void checkEdgeExists(Edge edge) {
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">        if (!containsEdge(edge)) {</span>
+<span class="nc" id="L157">            throw new IllegalArgumentException(&quot;Edge does not exist: &quot; + edge);</span>
+        }
+<span class="fc" id="L159">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.example.graph.algorithm.KahnTopologicalSorterTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-10-30T03:36:35.104Z" hostname="MacBook-Air-Pavel-2.local" time="0.024">
+  <properties/>
+  <testcase name="shouldSortSingleVertex()" classname="org.example.graph.algorithm.KahnTopologicalSorterTest" time="0.014"/>
+  <testcase name="shouldSortDagForAllGraphTypes()" classname="org.example.graph.algorithm.KahnTopologicalSorterTest" time="0.002"/>
+  <testcase name="shouldSortEmptyGraph()" classname="org.example.graph.algorithm.KahnTopologicalSorterTest" time="0.001"/>
+  <testcase name="shouldAllowDifferentCorrectOrders()" classname="org.example.graph.algorithm.KahnTopologicalSorterTest" time="0.0"/>
+  <testcase name="shouldRejectCycle()" classname="org.example.graph.algorithm.KahnTopologicalSorterTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

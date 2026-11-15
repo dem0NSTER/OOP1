@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>IncidenceMatrixGraph.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Task_1_2_1</a> &gt; <a href="index.source.html" class="el_package">org.example.graph.implemintations</a> &gt; <span class="el_source">IncidenceMatrixGraph.java</span></div><h1>IncidenceMatrixGraph.java</h1><pre class="source lang-java linenums">package org.example.graph.implemintations;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import org.example.graph.AbstractGraph;
+import org.example.graph.models.Edge;
+import org.example.graph.models.Vertex;
+
+/**
+ * Хранит граф в виде матрицы инцидентности.
+ */
+public class IncidenceMatrixGraph extends AbstractGraph {
+
+    private final List&lt;Vertex&gt; vertices;
+    private final List&lt;Edge&gt; edges;
+    private final List&lt;List&lt;Integer&gt;&gt; matrix;
+
+    /**
+     * Создаёт пустой граф.
+     */
+<span class="fc" id="L23">    public IncidenceMatrixGraph() {</span>
+<span class="fc" id="L24">        vertices = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L25">        edges = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L26">        matrix = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L27">    }</span>
+
+    @Override
+    public void addVertex(Vertex vertex) {
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (vertices.contains(vertex)) {</span>
+<span class="fc" id="L32">            throw new IllegalArgumentException(</span>
+                    &quot;Vertex already exists: &quot; + vertex
+            );
+        }
+
+<span class="fc" id="L37">        List&lt;Integer&gt; newRow = new ArrayList&lt;&gt;();</span>
+
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">        for (int i = 0; i &lt; edges.size(); i++) {</span>
+<span class="nc" id="L40">            newRow.add(0);</span>
+        }
+
+<span class="fc" id="L43">        vertices.add(vertex);</span>
+<span class="fc" id="L44">        matrix.add(newRow);</span>
+<span class="fc" id="L45">    }</span>
+
+    @Override
+    public void removeVertex(Vertex vertex) {
+<span class="fc" id="L49">        int vertexIndex = getVertexIndex(vertex);</span>
+
+<span class="fc bfc" id="L51" title="All 2 branches covered.">        for (int edgeIndex = edges.size() - 1; edgeIndex &gt;= 0; edgeIndex--) {</span>
+<span class="fc" id="L52">            Edge edge = edges.get(edgeIndex);</span>
+
+<span class="pc bpc" id="L54" title="2 of 4 branches missed.">            if (edge.from().equals(vertex) || edge.to().equals(vertex)) {</span>
+<span class="fc" id="L55">                removeEdgeAtIndex(edgeIndex);</span>
+            }
+        }
+
+<span class="fc" id="L59">        vertices.remove(vertexIndex);</span>
+<span class="fc" id="L60">        matrix.remove(vertexIndex);</span>
+<span class="fc" id="L61">    }</span>
+
+    @Override
+    public void addEdge(Edge edge) {
+<span class="pc bpc" id="L65" title="1 of 4 branches missed.">        if (!vertices.contains(edge.from()) || !vertices.contains(edge.to())) {</span>
+<span class="fc" id="L66">            throw new IllegalArgumentException(</span>
+                    &quot;Both vertices must exist&quot;
+            );
+        }
+
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        if (edge.from().equals(edge.to())) {</span>
+<span class="fc" id="L72">            throw new IllegalArgumentException(</span>
+                    &quot;Loops are not allowed&quot;
+            );
+        }
+
+<span class="pc bpc" id="L77" title="1 of 2 branches missed.">        if (edges.contains(edge)) {</span>
+<span class="nc" id="L78">            throw new IllegalArgumentException(</span>
+                    &quot;Edge already exists: &quot; + edge
+            );
+        }
+
+<span class="fc" id="L83">        edges.add(edge);</span>
+
+<span class="fc bfc" id="L85" title="All 2 branches covered.">        for (int i = 0; i &lt; vertices.size(); i++) {</span>
+<span class="fc" id="L86">            Vertex vertex = vertices.get(i);</span>
+
+<span class="fc bfc" id="L88" title="All 2 branches covered.">            if (vertex.equals(edge.from())) {</span>
+<span class="fc" id="L89">                matrix.get(i).add(-1);</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">            } else if (vertex.equals(edge.to())) {</span>
+<span class="fc" id="L91">                matrix.get(i).add(1);</span>
+            } else {
+<span class="fc" id="L93">                matrix.get(i).add(0);</span>
+            }
+        }
+<span class="fc" id="L96">    }</span>
+
+    @Override
+    public void removeEdge(Edge edge) {
+<span class="fc" id="L100">        int edgeIndex = getEdgeIndex(edge);</span>
+<span class="fc" id="L101">        removeEdgeAtIndex(edgeIndex);</span>
+<span class="fc" id="L102">    }</span>
+
+    @Override
+    public Set&lt;Vertex&gt; getNeighbors(Vertex vertex) {
+<span class="fc" id="L106">        getVertexIndex(vertex);</span>
+
+<span class="fc" id="L108">        Set&lt;Vertex&gt; neighbors = new HashSet&lt;&gt;();</span>
+
+<span class="fc bfc" id="L110" title="All 2 branches covered.">        for (Edge edge : edges) {</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">            if (edge.from().equals(vertex)) {</span>
+<span class="fc" id="L112">                neighbors.add(edge.to());</span>
+            }
+<span class="fc" id="L114">        }</span>
+
+<span class="fc" id="L116">        return neighbors;</span>
+    }
+
+    @Override
+    public Set&lt;Vertex&gt; getVertices() {
+<span class="fc" id="L121">        return Set.copyOf(vertices);</span>
+    }
+
+    @Override
+    public Set&lt;Edge&gt; getEdges() {
+<span class="fc" id="L126">        return Set.copyOf(edges);</span>
+    }
+
+    @Override
+    public boolean containsVertex(Vertex vertex) {
+<span class="fc" id="L131">        return vertices.contains(vertex);</span>
+    }
+
+    @Override
+    public boolean containsEdge(Edge edge) {
+<span class="fc" id="L136">        return edges.contains(edge);</span>
+    }
+
+    @Override
+    public int vertexCount() {
+<span class="fc" id="L141">        return vertices.size();</span>
+    }
+
+    @Override
+    public int edgeCount() {
+<span class="fc" id="L146">        return edges.size();</span>
+    }
+
+    private int getVertexIndex(Vertex vertex) {
+<span class="fc" id="L150">        int index = vertices.indexOf(vertex);</span>
+<span class="pc bpc" id="L151" title="1 of 2 branches missed.">        if (index == -1) {</span>
+<span class="nc" id="L152">            throw new IllegalArgumentException(&quot;Vertex does not exist: &quot; + vertex);</span>
+        }
+<span class="fc" id="L154">        return index;</span>
+    }
+
+    private int getEdgeIndex(Edge edge) {
+<span class="fc" id="L158">        int index = edges.indexOf(edge);</span>
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">        if (index == -1) {</span>
+<span class="nc" id="L160">            throw new IllegalArgumentException(&quot;Edge does not exist: &quot; + edge);</span>
+        }
+<span class="fc" id="L162">        return index;</span>
+    }
+
+    private void removeEdgeAtIndex(int edgeIndex) {
+<span class="fc" id="L166">        edges.remove(edgeIndex);</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">        for (List&lt;Integer&gt; row : matrix) {</span>
+<span class="fc" id="L168">            row.remove(edgeIndex);</span>
+<span class="fc" id="L169">        }</span>
+<span class="fc" id="L170">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

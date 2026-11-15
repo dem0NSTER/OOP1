@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GraphReader.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Task_1_2_1</a> &gt; <a href="index.source.html" class="el_package">org.example.graph.io</a> &gt; <span class="el_source">GraphReader.java</span></div><h1>GraphReader.java</h1><pre class="source lang-java linenums">package org.example.graph.io;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.util.function.Supplier;
+import org.example.graph.Graph;
+import org.example.graph.models.Edge;
+import org.example.graph.models.Vertex;
+
+/**
+ * Читает граф из текстового файла.
+ */
+public class GraphReader {
+    // формат файл
+    //    3        : количество вершин
+    //    1 2 3    : id вершин
+    //    2        : количество рёбер
+    //    1 2      : ребро 1 -&gt; 2
+    //    2 3      : ребро 2 -&gt; 3
+
+    private GraphReader() {
+    }
+
+    /**
+     * Читает количество вершин, их идентификаторы, количество рёбер и пары их концов.
+     *
+     * @param filename путь к файлу
+     * @param graphFactory способ создания пустого графа
+     * @return прочитанный граф
+     * @throws FileNotFoundException если файл не найден
+     */
+    public static Graph read(String filename, Supplier&lt;Graph&gt; graphFactory)
+            throws FileNotFoundException {
+
+<span class="fc" id="L36">        Graph graph = graphFactory.get();</span>
+
+<span class="fc" id="L38">        try (Scanner scanner = new Scanner(new File(filename))) {</span>
+<span class="fc" id="L39">            int vertexCount = scanner.nextInt();</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">            if (vertexCount &lt; 0) {</span>
+<span class="fc" id="L41">                throw new IllegalArgumentException(&quot;Vertex count must not be negative&quot;);</span>
+            }
+
+<span class="fc bfc" id="L44" title="All 2 branches covered.">            for (int i = 0; i &lt; vertexCount; i++) {</span>
+<span class="fc" id="L45">                int id = scanner.nextInt();</span>
+<span class="fc" id="L46">                graph.addVertex(new Vertex(id));</span>
+            }
+
+<span class="fc" id="L49">            int edgeCount = scanner.nextInt();</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">            if (edgeCount &lt; 0) {</span>
+<span class="fc" id="L51">                throw new IllegalArgumentException(&quot;Edge count must not be negative&quot;);</span>
+            }
+
+<span class="fc bfc" id="L54" title="All 2 branches covered.">            for (int i = 0; i &lt; edgeCount; i++) {</span>
+<span class="fc" id="L55">                int from = scanner.nextInt();</span>
+<span class="fc" id="L56">                int to = scanner.nextInt();</span>
+
+<span class="fc" id="L58">                graph.addEdge(</span>
+                        new Edge(
+                                new Vertex(from),
+                                new Vertex(to)
+                        )
+                );
+            }
+        }
+
+<span class="fc" id="L67">        return graph;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

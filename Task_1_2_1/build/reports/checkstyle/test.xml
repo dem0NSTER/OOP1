@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="10.12.4">
+<file name="/Users/pavelfedorenko/IdeaProjects/OOP1/Task_1_2_1/src/test/java/org/example/graph/implemintations/AdjacencyListGraphTest.java">
+</file>
+<file name="/Users/pavelfedorenko/IdeaProjects/OOP1/Task_1_2_1/src/test/java/org/example/graph/implemintations/IncidenceMatrixGraphTest.java">
+</file>
+<file name="/Users/pavelfedorenko/IdeaProjects/OOP1/Task_1_2_1/src/test/java/org/example/graph/implemintations/AdjacencyMatrixGraphTest.java">
+</file>
+<file name="/Users/pavelfedorenko/IdeaProjects/OOP1/Task_1_2_1/src/test/java/org/example/graph/implemintations/GraphObjectMethodsTest.java">
+</file>
+<file name="/Users/pavelfedorenko/IdeaProjects/OOP1/Task_1_2_1/src/test/java/org/example/graph/io/GraphReaderTest.java">
+</file>
+<file name="/Users/pavelfedorenko/IdeaProjects/OOP1/Task_1_2_1/src/test/java/org/example/graph/algorithm/KahnTopologicalSorterTest.java">
+</file>
+</checkstyle>

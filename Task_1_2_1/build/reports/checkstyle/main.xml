@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="10.12.4">
+<file name="/Users/pavelfedorenko/IdeaProjects/OOP1/Task_1_2_1/src/main/java/org/example/graph/implemintations/AdjacencyMatrixGraph.java">
+</file>
+<file name="/Users/pavelfedorenko/IdeaProjects/OOP1/Task_1_2_1/src/main/java/org/example/graph/implemintations/AdjacencyListGraph.java">
+</file>
+<file name="/Users/pavelfedorenko/IdeaProjects/OOP1/Task_1_2_1/src/main/java/org/example/graph/implemintations/IncidenceMatrixGraph.java">
+</file>
+<file name="/Users/pavelfedorenko/IdeaProjects/OOP1/Task_1_2_1/src/main/java/org/example/graph/Graph.java">
+</file>
+<file name="/Users/pavelfedorenko/IdeaProjects/OOP1/Task_1_2_1/src/main/java/org/example/graph/io/GraphReader.java">
+</file>
+<file name="/Users/pavelfedorenko/IdeaProjects/OOP1/Task_1_2_1/src/main/java/org/example/graph/models/Vertex.java">
+</file>
+<file name="/Users/pavelfedorenko/IdeaProjects/OOP1/Task_1_2_1/src/main/java/org/example/graph/models/Edge.java">
+</file>
+<file name="/Users/pavelfedorenko/IdeaProjects/OOP1/Task_1_2_1/src/main/java/org/example/graph/algorithm/KahnTopologicalSorter.java">
+</file>
+<file name="/Users/pavelfedorenko/IdeaProjects/OOP1/Task_1_2_1/src/main/java/org/example/graph/algorithm/TopologicalSorter.java">
+</file>
+<file name="/Users/pavelfedorenko/IdeaProjects/OOP1/Task_1_2_1/src/main/java/org/example/graph/AbstractGraph.java">
+</file>
+<file name="/Users/pavelfedorenko/IdeaProjects/OOP1/Task_1_2_1/src/main/java/org/example/Main.java">
+</file>
+</checkstyle>
